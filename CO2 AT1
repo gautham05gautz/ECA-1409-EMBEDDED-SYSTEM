@@ -1,34 +1,35 @@
-#include <stdio.h>
+#include <reg51.h>
 
-int main()
+// Warning Indicators
+sbit LOW_FUEL   = P1^0;
+sbit ENGINE_HOT = P1^1;
+sbit OVER_SPEED = P1^2;
+
+void main()
 {
-    int speed, fuel, temperature;
+    // Simulated Sensor Values
+    unsigned char speed = 120;   // km/h
+    unsigned char fuel  = 15;    // %
+    unsigned char temp  = 95;    // °C
 
-    printf("Enter Vehicle Speed (km/h): ");
-    scanf("%d", &speed);
+    while(1)
+    {
+        // Low Fuel Check
+        if(fuel < 20)
+            LOW_FUEL = 1;
+        else
+            LOW_FUEL = 0;
 
-    printf("Enter Fuel Level (%%): ");
-    scanf("%d", &fuel);
+        // Engine Temperature Check
+        if(temp > 90)
+            ENGINE_HOT = 1;
+        else
+            ENGINE_HOT = 0;
 
-    printf("Enter Engine Temperature (°C): ");
-    scanf("%d", &temperature);
-
-    printf("\n----- Automotive Dashboard -----\n");
-    printf("Speed       : %d km/h\n", speed);
-    printf("Fuel Level  : %d%%\n", fuel);
-    printf("Temperature : %d°C\n", temperature);
-
-    if (fuel < 20)
-        printf("Warning : LOW FUEL\n");
-
-    if (temperature > 90)
-        printf("Warning : ENGINE HOT\n");
-
-    if (speed > 100)
-        printf("Warning : OVERSPEED\n");
-
-    if (fuel >= 20 && temperature <= 90 && speed <= 100)
-        printf("System Status : NORMAL\n");
-
-    return 0;
+        // Over Speed Check
+        if(speed > 100)
+            OVER_SPEED = 1;
+        else
+            OVER_SPEED = 0;
+    }
 }
