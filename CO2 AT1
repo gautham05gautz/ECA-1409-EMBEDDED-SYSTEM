@@ -1,0 +1,34 @@
+#include <stdio.h>
+
+int main()
+{
+    int speed, fuel, temperature;
+
+    printf("Enter Vehicle Speed (km/h): ");
+    scanf("%d", &speed);
+
+    printf("Enter Fuel Level (%%): ");
+    scanf("%d", &fuel);
+
+    printf("Enter Engine Temperature (°C): ");
+    scanf("%d", &temperature);
+
+    printf("\n----- Automotive Dashboard -----\n");
+    printf("Speed       : %d km/h\n", speed);
+    printf("Fuel Level  : %d%%\n", fuel);
+    printf("Temperature : %d°C\n", temperature);
+
+    if (fuel < 20)
+        printf("Warning : LOW FUEL\n");
+
+    if (temperature > 90)
+        printf("Warning : ENGINE HOT\n");
+
+    if (speed > 100)
+        printf("Warning : OVERSPEED\n");
+
+    if (fuel >= 20 && temperature <= 90 && speed <= 100)
+        printf("System Status : NORMAL\n");
+
+    return 0;
+}
