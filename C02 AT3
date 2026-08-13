@@ -1,0 +1,40 @@
+#include <reg51.h>
+
+sbit POLLING_LED = P1^0;
+sbit INTERRUPT_LED = P1^1;
+
+// Polling Delay Function
+void delay()
+{
+    unsigned int i, j;
+    for(i = 0; i < 200; i++)
+        for(j = 0; j < 1275; j++);
+}
+
+// Timer0 Interrupt Service Routine
+void timer0_ISR(void) interrupt 1
+{
+    TH0 = 0x3C;      // Reload Timer0
+    TL0 = 0xB0;
+
+    INTERRUPT_LED = !INTERRUPT_LED;   // Toggle LED using interrupt
+}
+
+void main()
+{
+    // Configure Timer0 in Mode 1
+    TMOD = 0x01;
+
+    TH0 = 0x3C;
+    TL0 = 0xB0;
+
+    ET0 = 1;     // Enable Timer0 Interrupt
+    EA = 1;      // Enable Global Interrupt
+    TR0 = 1;     // Start Timer0
+
+    while(1)
+    {
+        delay();                     // Polling Delay
+        POLLING_LED = !POLLING_LED;  // Toggle Polling LED
+    }
+}
